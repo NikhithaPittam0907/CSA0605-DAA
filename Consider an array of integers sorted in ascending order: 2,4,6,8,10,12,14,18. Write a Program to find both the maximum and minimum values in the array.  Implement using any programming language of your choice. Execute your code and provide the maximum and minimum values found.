@@ -1,0 +1,4 @@
+array = [2, 4, 6, 8, 10, 12, 14, 18]
+min_value = min(array)
+max_value = max(array)
+print(f"Min = {min_value}, Max = {max_value}")
