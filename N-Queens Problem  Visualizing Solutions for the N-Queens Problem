@@ -1,0 +1,60 @@
+def print_solution(board):
+    """ Function to print the solution in a visual format """
+    for row in board:
+        print(" ".join(row))
+    print("\n")
+
+def is_safe(board, row, col, N):
+    """ Function to check if placing a queen at board[row][col] is safe """
+    # Check the current row on the left side
+    for i in range(col):
+        if board[row][i] == 'Q':
+            return False
+    
+    # Check the upper diagonal on the left side
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 'Q':
+            return False
+
+    # Check the lower diagonal on the left side
+    for i, j in zip(range(row, N), range(col, -1, -1)):
+        if board[i][j] == 'Q':
+            return False
+
+    return True
+
+def solve_n_queens(board, col, N):
+    """ Recursive function to solve the N-Queens problem """
+    # Base case: If all queens are placed, print the solution
+    if col >= N:
+        print_solution(board)
+        return True
+
+    res = False
+    for i in range(N):
+        # Check if it's safe to place the queen at board[i][col]
+        if is_safe(board, i, col, N):
+            # Place the queen
+            board[i][col] = 'Q'
+
+            # Recur to place the rest of the queens
+            res = solve_n_queens(board, col + 1, N) or res
+
+            # Backtrack: Remove the queen if placing it didn't lead to a solution
+            board[i][col] = '.'
+
+    return res
+
+def n_queens(N):
+    """ Driver function to solve the N-Queens problem """
+    # Initialize the chessboard with empty cells
+    board = [['.' for _ in range(N)] for _ in range(N)]
+
+    if not solve_n_queens(board, 0, N):
+        print("No solution exists")
+    else:
+        print("All solutions are displayed.")
+
+# Example usage:
+N = 4  # You can change this value to visualize solutions for other board sizes
+n_queens(N)
