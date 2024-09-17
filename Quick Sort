@@ -1,0 +1,14 @@
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[0]
+    less_than_pivot = [x for x in arr[1:] if x <= pivot]
+    greater_than_pivot = [x for x in arr[1:] if x > pivot]
+    
+    sorted_array = quick_sort(less_than_pivot) + [pivot] + quick_sort(greater_than_pivot)
+    print(sorted_array)  # Display the array after each recursive call
+    return sorted_array
+
+# Test the function with the provided input
+input_array = [10, 16, 8, 12, 15, 6, 3, 9, 5]
+print("Sorted Output:", quick_sort(input_array))
