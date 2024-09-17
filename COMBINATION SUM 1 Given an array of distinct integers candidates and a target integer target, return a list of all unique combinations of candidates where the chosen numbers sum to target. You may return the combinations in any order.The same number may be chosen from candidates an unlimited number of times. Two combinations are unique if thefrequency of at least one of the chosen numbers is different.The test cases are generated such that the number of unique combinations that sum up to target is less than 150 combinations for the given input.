@@ -1,0 +1,26 @@
+def combination_sum(candidates, target):
+    def backtrack(start, target, path):
+        if target == 0:
+            # If we have reached the target, add the path to the result
+            result.append(path)
+            return
+        if target < 0:
+            # If target is negative, no need to continue
+            return
+        
+        for i in range(start, len(candidates)):
+            # Include the candidate in the path and continue exploring
+            backtrack(i, target - candidates[i], path + [candidates[i]])
+    
+    result = []
+    backtrack(0, target, [])
+    return result
+
+# Example usage
+candidates = [2, 3, 6, 7]
+target = 7
+combinations = combination_sum(candidates, target)
+
+print("Combinations that sum up to", target, ":")
+for combo in combinations:
+    print(combo)
