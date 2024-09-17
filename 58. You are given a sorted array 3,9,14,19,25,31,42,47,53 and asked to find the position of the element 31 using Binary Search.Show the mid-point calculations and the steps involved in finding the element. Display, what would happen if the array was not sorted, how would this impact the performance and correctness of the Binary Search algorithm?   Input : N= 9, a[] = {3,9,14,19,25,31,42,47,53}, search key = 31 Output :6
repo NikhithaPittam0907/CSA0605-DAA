@@ -1,0 +1,36 @@
+def binary_search(arr, left, right, key):
+    steps = []  # To store the steps and mid-point calculations
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        steps.append(f"Mid index: {mid}, Mid value: {arr[mid]}")
+
+        if arr[mid] == key:
+            steps.append(f"Element {key} found at index {mid}")
+            return mid, steps
+        elif arr[mid] < key:
+            steps.append(f"Element {key} is greater than {arr[mid]}. Searching right half.")
+            left = mid + 1
+        else:
+            steps.append(f"Element {key} is less than {arr[mid]}. Searching left half.")
+            right = mid - 1
+    
+    steps.append(f"Element {key} not found in the array.")
+    return -1, steps
+
+# Input array
+arr = [3, 9, 14, 19, 25, 31, 42, 47, 53]
+key = 31
+n = len(arr)
+
+# Perform binary search
+index, steps = binary_search(arr, 0, n - 1, key)
+
+# Output the steps and result
+for step in steps:
+    print(step)
+
+if index != -1:
+    print(f"Element {key} is at index {index}.")
+else:
+    print(f"Element {key} is not found in the array.")
