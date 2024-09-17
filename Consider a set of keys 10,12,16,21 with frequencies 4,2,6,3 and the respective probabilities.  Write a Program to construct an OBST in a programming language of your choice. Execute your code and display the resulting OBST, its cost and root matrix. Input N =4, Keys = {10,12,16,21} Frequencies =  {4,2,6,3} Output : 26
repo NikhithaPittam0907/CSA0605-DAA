@@ -1,0 +1,18 @@
+# Input data
+keys = [10, 12, 16, 21]
+freq = [4, 2, 6, 3]
+
+# Calculate OBST
+cost, root = optimal_bst(keys, freq)
+
+# Output the cost and root matrix
+print("Cost matrix:")
+print(cost)
+print("\nRoot matrix:")
+print(root)
+
+print("\nOptimal Binary Search Tree Structure:")
+print_obst_structure(root, keys, 0, len(keys) - 1)
+
+# The cost of the optimal BST
+print(f"\nCost of the optimal BST: {cost[0][len(keys) - 1]}")
