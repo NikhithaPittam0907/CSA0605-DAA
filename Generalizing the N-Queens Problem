@@ -1,0 +1,41 @@
+def is_safe_rectangular(board, row, col, N, M):
+    """ Check if placing a queen at board[row][col] is safe on an NxM board """
+    for i in range(col):
+        if board[row][i] == 'Q':
+            return False
+    
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 'Q':
+            return False
+
+    for i, j in zip(range(row, N), range(col, -1, -1)):
+        if board[i][j] == 'Q':
+            return False
+
+    return True
+
+def solve_n_queens_rectangular(board, col, N, M):
+    """ Solve the N-Queens problem on an NxM board """
+    if col >= M or col >= N:
+        return True
+
+    for i in range(N):
+        if is_safe_rectangular(board, i, col, N, M):
+            board[i][col] = 'Q'
+            if solve_n_queens_rectangular(board, col + 1, N, M):
+                return True
+            board[i][col] = '.'
+
+    return False
+
+def n_queens_rectangular(N, M):
+    """ Solve the N-Queens problem on a rectangular NxM board """
+    board = [['.' for _ in range(M)] for _ in range(N)]
+    if not solve_n_queens_rectangular(board, 0, N, M):
+        print("No solution exists")
+    else:
+        for row in board:
+            print(" ".join(row))
+
+# Example: 8x10 board, placing 8 queens
+n_queens_rectangular(8, 10)
