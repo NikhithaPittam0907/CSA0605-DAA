@@ -1,0 +1,31 @@
+def combination_sum_2(candidates, target):
+    def backtrack(start, target, path):
+        if target == 0:
+            # If we have reached the target, add the path to the result
+            result.append(path)
+            return
+        if target < 0:
+            # If target is negative, no need to continue
+            return
+        
+        for i in range(start, len(candidates)):
+            # Skip duplicates
+            if i > start and candidates[i] == candidates[i - 1]:
+                continue
+            
+            # Include the candidate in the path and continue exploring
+            backtrack(i + 1, target - candidates[i], path + [candidates[i]])
+    
+    result = []
+    candidates.sort()  # Sort candidates to handle duplicates
+    backtrack(0, target, [])
+    return result
+
+# Example usage
+candidates = [10, 1, 2, 7, 6, 1, 5]
+target = 8
+combinations = combination_sum_2(candidates, target)
+
+print("Combinations that sum up to", target, ":")
+for combo in combinations:
+    print(combo)
