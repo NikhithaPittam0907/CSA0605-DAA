@@ -1,0 +1,30 @@
+def permute_unique(nums):
+    def backtrack(path, remaining):
+        if not remaining:
+            # If no remaining numbers, we've found a unique permutation
+            result.append(path)
+            return
+        
+        used = set()
+        for i in range(len(remaining)):
+            # Skip duplicates
+            if remaining[i] in used:
+                continue
+            used.add(remaining[i])
+            # Choose the next number
+            next_path = path + [remaining[i]]
+            # Recurse with the remaining numbers except the chosen one
+            backtrack(next_path, remaining[:i] + remaining[i+1:])
+    
+    result = []
+    nums.sort()  # Sort to handle duplicates
+    backtrack([], nums)
+    return result
+
+# Example usage
+nums = [1, 1, 2]
+permutations = permute_unique(nums)
+
+print("All unique permutations:")
+for perm in permutations:
+    print(perm)
