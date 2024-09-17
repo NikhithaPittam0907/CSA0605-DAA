@@ -1,0 +1,55 @@
+import numpy as np
+
+def optimal_bst(keys, freq):
+    n = len(keys)
+    
+    # Cost and root matrices
+    cost = np.zeros((n, n))
+    root = np.zeros((n, n), dtype=int)
+
+    # Initialize cost for single keys
+    for i in range(n):
+        cost[i][i] = freq[i]
+
+    # Calculate cost for sequences of length > 1
+    for length in range(2, n + 1):  # length ranges from 2 to n
+        for i in range(n - length + 1):
+            j = i + length - 1
+            cost[i][j] = float('inf')
+            total_freq = sum(freq[i:j+1])
+            
+            for r in range(i, j + 1):
+                c = (cost[i][r - 1] if r > i else 0) + \
+                    (cost[r + 1][j] if r < j else 0) + total_freq
+                
+                if c < cost[i][j]:
+                    cost[i][j] = c
+                    root[i][j] = r
+
+    return cost, root
+
+def print_obst_structure(root, keys, i, j):
+    if i <= j:
+        r = root[i][j]
+        print(f"Root of subtree {keys[i:j+1]} is {keys[r]}")
+        print_obst_structure(root, keys, i, r - 1)
+        print_obst_structure(root, keys, r + 1, j)
+
+# Input data
+keys = ['A', 'B', 'C', 'D']
+freq = [0.1, 0.2, 0.4, 0.3]
+
+# Calculate OBST
+cost, root = optimal_bst(keys, freq)
+
+# Output the cost and root matrix
+print("Cost matrix:")
+print(cost)
+print("\nRoot matrix:")
+print(root)
+
+print("\nOptimal Binary Search Tree Structure:")
+print_obst_structure(root, keys, 0, len(keys) - 1)
+
+# The cost of the optimal BST
+print(f"\nCost of the optimal BST: {cost[0][len(keys) - 1]:.1f}")
