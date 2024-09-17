@@ -1,0 +1,64 @@
+import heapq
+
+def prim_mst(graph):
+    """
+    Find the Minimum Spanning Tree (MST) using Prim's Algorithm.
+
+    Args:
+    graph: 2D list where graph[i][j] is the weight of the edge from vertex i to vertex j.
+
+    Returns:
+    total_cost: Total cost of the MST.
+    mst_edges: List of edges in the MST (tuples of the form (u, v, weight)).
+    """
+    num_vertices = len(graph)
+    total_cost = 0
+    mst_edges = []
+    
+    # Priority queue to store the edges along with their weights
+    min_heap = [(0, 0)]  # (cost, vertex)
+    visited = [False] * num_vertices
+    min_edge = [float('inf')] * num_vertices
+    min_edge[0] = 0
+    
+    while min_heap:
+        cost, u = heapq.heappop(min_heap)
+        
+        if visited[u]:
+            continue
+        
+        visited[u] = True
+        total_cost += cost
+        
+        if cost != 0:
+            # If cost is not zero, then it's an edge in the MST
+            mst_edges.append((parent[u], u, cost))
+        
+        for v in range(num_vertices):
+            if not visited[v] and 0 < graph[u][v] < min_edge[v]:
+                min_edge[v] = graph[u][v]
+                parent[v] = u
+                heapq.heappush(min_heap, (graph[u][v], v))
+    
+    return total_cost, mst_edges
+
+# Example usage
+# Adjacency matrix representation of the graph
+graph = [
+    [0, 2, 0, 6, 0],
+    [2, 0, 3, 8, 5],
+    [0, 3, 0, 0, 7],
+    [6, 8, 0, 0, 9],
+    [0, 5, 7, 9, 0]
+]
+
+# Initialize parent array
+parent = [-1] * len(graph)
+
+# Find MST
+total_cost, mst_edges = prim_mst(graph)
+
+print("Total cost of MST:", total_cost)
+print("Edges in MST:")
+for u, v, weight in mst_edges:
+    print(f"{u} - {v}: {weight}")
